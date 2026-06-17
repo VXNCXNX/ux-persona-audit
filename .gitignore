@@ -1,0 +1,9 @@
+# Runtime output written into audited projects, never into this repo
+.ux-audit/
+
+# OS / editor cruft
+.DS_Store
+
+# Node (only if a dependency is ever added; the skill ships dep-free)
+node_modules/
+.gstack/

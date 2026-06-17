@@ -1,0 +1,12 @@
+{
+  "name": "ux-persona-audit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A Claude Code skill: a panel of diverse AI personas walk a real website and produce a polished, standalone HTML UX audit.",
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "demo": "node scripts/build_report.mjs assets/sample-data.json -o /tmp/ux-audit-demo.html && echo opened /tmp/ux-audit-demo.html"
+  },
+  "license": "MIT"
+}

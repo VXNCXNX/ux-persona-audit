@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "brand": "Switchboard",
+    "descriptor": "feature-flag SaaS",
+    "headline": "Six buyers walked the funnel.",
+    "headlineLead": "One made it through.",
+    "standfirst": "Six prospective buyers, each arriving from a different place and in a different state of mind, walked the real Switchboard signup flow. **Five left before converting.** Here is what stopped each of them, in their own words.",
+    "eyebrow": "UX AUDIT · PRICING · DEVELOPER TRUST",
+    "title": "The landing → pricing → signup flow, seen by 6 real buyers.",
+    "title_highlights": ["landing → pricing → signup"],
+    "subtitle": "Six personas, each arriving from a different place and in a different state of mind, walked the real Switchboard pages (a feature-flag and experimentation SaaS) and reasoned their path from the landing page to the signup form. Here, per person, what to improve, then the consolidated SEO, UX, copy, and bug briefs.",
+    "site": "switchboard.example",
+    "date": "17 June 2026",
+    "flowLabel": "Flow",
+    "flow": ["landing", "pricing", "signup"],
+    "method": "reasoned",
+    "stats": [
+      { "value": "6", "label": "personas simulated" },
+      { "value": "5", "label": "entry sources" },
+      { "value": "3", "label": "funnel steps tested" }
+    ]
+  },
+  "ui": {
+    "cast": "The panel",
+    "personasTitle": "Where each buyer broke.",
+    "exitTitle": "What the six buyers said after.",
+    "matrixSubtitle": "6 buyers, 5 entry sources, landing through signup.",
+    "personasSubtitle": "Each card = one buyer's path and the concrete fixes it surfaces.",
+    "completed": "Signed up",
+    "dropped": "Bounced"
+  },
+  "verdict": [
+    { "tag": "Pricing hides where buyers decide", "text": "the number a buyer needs is missing exactly where they look: free-tier limits are vague, the Team plan says \"contact sales\", and both the solo dev and the eng manager **leave the pricing page unable to do the math.**" },
+    { "tag": "Proof sits off the funnel", "text": "your DX, security, and self-host answers exist, but they live in the docs and the footer, not next to the signup CTA. The engineer who needs an SDK and the CTO who needs SOC 2 both **decide where credibility is lowest.**" },
+    { "tag": "Signup asks too much, too early", "text": "developer-only copy on the landing and a heavy form push the non-technical PM and the price-shy indie out before any value shows. **The one buyer who converts is the engineer who came to read code, not to be sold.**" }
+  ],
+  "matrix": {
+    "columns": ["Persona", "Looking for", "Arrives from", "Mindset", "Lands on"],
+    "rows": [
+      { "persona": "Sam", "cells": ["A free / self-host flags tool", "Google search", "Skeptic, price-shy", "Pricing, free limit unclear"] },
+      { "persona": "Priya", "cells": ["A clean SDK + good docs", "Hacker News thread", "DX-driven", "Free signup, trying the SDK"] },
+      { "persona": "Marcus", "cells": ["Team seats + RBAC pricing", "Peer referral", "Pragmatic buyer", "\"Contact sales\" dead-end"] },
+      { "persona": "Dana", "cells": ["Plain-language experiments", "LinkedIn ad", "Non-technical, unsure", "Landing, lost in jargon"] },
+      { "persona": "Wei", "cells": ["Security + self-host proof", "Direct / branded", "Risk-averse CTO", "Signup, security unanswered"] },
+      { "persona": "Léo", "cells": ["Multi-client / agency setup", "Agency Slack", "Efficiency-seeking", "Pricing, no agency lane"] }
+    ]
+  },
+  "personas": [
+    {
+      "id": "sam", "initial": "S", "color": "#2f6fed", "name": "Sam", "short": "indie dev",
+      "tag": "Can't find the free-tier line",
+      "meta": "29, solo dev shipping a side project, wants flags without a bill",
+      "outcome": { "completed": false, "landedOn": "Pricing page, free limits unclear" },
+      "chips": [
+        { "k": "Page", "v": "Landing → Pricing" },
+        { "k": "Entry", "v": "Google « open-source feature flags »" },
+        { "k": "Mindset", "v": "Skeptic, price-shy" }
+      ],
+      "improvements": [
+        "State the free tier's real limits in numbers on the pricing card (flags, environments, MAUs, seats), next to the plan, not in a tooltip. **He will not sign up until he knows what \"free\" actually caps.**",
+        "Answer \"can I self-host?\" on the pricing page itself; the open-source / self-host question is his entry intent and today it is only addressed deep in the docs.",
+        "Lead the pricing page with the free plan, not the per-seat Team tier; a price-shy solo dev reads the first number he sees as \"the price\" and bounces."
+      ],
+      "verbatim": "Just tell me what the free tier actually caps, flags, environments, seats, before I wire your SDK into my repo. \"Contact us\" is not a price.",
+      "friction": { "n": 1, "severity": "S3", "text": "Free-tier limits are not stated in numbers on the pricing page, and the self-host question he arrived with is buried in docs, so a **price-shy solo dev can't tell if \"free\" fits him** and leaves." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "The product looked fine, trust wasn't the issue. **The missing free-tier number is.** I can't commit to a price I can't see." },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "No, and that was the dealbreaker. **The free tier's real caps, flags, environments, seats, are nowhere on the pricing page.**" },
+        { "q": "What was missing that would have made you commit?", "a": "Free-tier limits in plain numbers on the card, plus a self-host line. **Give me those and I'd have signed up.**" }
+      ]
+    },
+    {
+      "id": "priya", "initial": "P", "color": "#6b54c6", "name": "Priya", "short": "frontend engineer",
+      "tag": "Converts on the SDK quickstart",
+      "meta": "33, frontend engineer evaluating flags for her team's React app",
+      "outcome": { "completed": true, "landedOn": "Free signup, running the SDK" },
+      "chips": [
+        { "k": "Page", "v": "Landing → Docs → Signup" },
+        { "k": "Entry", "v": "Hacker News thread" },
+        { "k": "Mindset", "v": "DX-driven" }
+      ],
+      "improvements": [
+        "Surface the SDK quickstart and a copy-paste snippet on the landing page, not only in the docs. **It is what actually converts her; today she had to dig for it.**",
+        "Show supported-framework logos (React, Node, Go, ...) near the hero so she sees first-class support at a glance.",
+        "Link \"Docs\" from the top nav, not just the footer; she found them by guessing the /docs URL."
+      ],
+      "verbatim": "Honestly the quickstart sold me, three lines and the flag flipped. I just wish I hadn't had to guess the /docs URL to find it.",
+      "friction": { "n": 1, "severity": "S2", "text": "The one thing that converts her, a clean SDK quickstart, is **only reachable by guessing the docs URL**: it is absent from the landing and the top nav. She succeeded despite the funnel, not because of it." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "The quickstart did it. Three lines of working SDK earns more trust than any badge, **I just had to dig to find it.**" },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "Free was enough to run the SDK, which is all I needed, **but I confirmed that by trying it, not from the pricing page.**" },
+        { "q": "What was missing that would have made you commit?", "a": "Almost nothing, I converted. **Put the quickstart on the landing and link Docs in the nav** so the next engineer doesn't guess the URL." }
+      ]
+    },
+    {
+      "id": "marcus", "initial": "M", "color": "#3aa17e", "name": "Marcus", "short": "eng manager",
+      "tag": "Team pricing is a \"contact sales\" wall",
+      "meta": "41, engineering manager sizing a rollout for a 25-person team",
+      "outcome": { "completed": false, "landedOn": "\"Contact sales\", no number to evaluate" },
+      "chips": [
+        { "k": "Page", "v": "Landing → Pricing → Team" },
+        { "k": "Entry", "v": "Peer referral" },
+        { "k": "Mindset", "v": "Pragmatic buyer" }
+      ],
+      "improvements": [
+        "Put a real per-seat number (or a clear \"starts at\" range) on the Team plan. **\"Contact sales\" on the one tier he can buy stops his evaluation cold.**",
+        "List what Team adds over Pro in a comparison row (RBAC, SSO, audit log, seats) so he can justify the upgrade internally.",
+        "Offer a self-serve Team checkout; a 25-person team is too big for Pro and too small to want a sales call."
+      ],
+      "verbatim": "I have budget and 25 seats ready. You're making me book a call to learn a price I'd have paid on the spot. I'll go look at the one that shows the number.",
+      "friction": { "n": 1, "severity": "S4", "text": "The Team plan, the only tier that fits 25 seats, **shows \"Contact sales\" instead of a price**, so a ready-to-buy manager cannot evaluate it and leaves for a competitor that lists one." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "Trust wasn't the blocker. **I couldn't even get a Team price to evaluate**, so there was nothing to weigh up." },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "Free and Pro were readable. **Team, the only tier I can buy, just says 'contact sales'**, so the part that matters to me wasn't clear at all." },
+        { "q": "What was missing that would have made you commit?", "a": "A real Team price, or a 'starts at' range, with self-serve checkout. **I had budget and 25 seats ready to go.**" }
+      ]
+    },
+    {
+      "id": "dana", "initial": "D", "color": "#e0892f", "name": "Dana", "short": "growth PM",
+      "tag": "Lost in developer jargon",
+      "meta": "36, growth PM who runs experiments but does not write code",
+      "outcome": { "completed": false, "landedOn": "Landing, bounced on jargon" },
+      "chips": [
+        { "k": "Page", "v": "Landing" },
+        { "k": "Entry", "v": "LinkedIn ad" },
+        { "k": "Mindset", "v": "Non-technical, unsure" }
+      ],
+      "improvements": [
+        "Add one plain-language line above the dev jargon: \"Turn features on or off and run experiments, no deploy or engineer required.\" **She runs experiments, but the page only speaks to developers.**",
+        "Show an outcome she recognizes (a before/after experiment, a conversion lift) instead of SDKs and rollouts.",
+        "Gloss or cut \"feature flag\", \"SDK\", \"rollout\", \"targeting rules\" on first use, or give product teams their own lane separate from the developer one."
+      ],
+      "verbatim": "The ad said \"run experiments faster\". The site is all SDKs and rollouts. Is this even for someone like me, or just for my engineers?",
+      "friction": { "n": 1, "severity": "S3", "text": "The landing speaks only to developers (SDKs, rollouts, targeting rules) with **no plain-language entry for the non-technical PM** the LinkedIn ad brought in, so she can't tell the product is for her." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "I couldn't tell if it was even **for someone non-technical like me**, so trust never got a chance to form." },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "Not really, but pricing wasn't where I got lost. **I bounced on the landing before I ever reached it.**" },
+        { "q": "What was missing that would have made you commit?", "a": "One plain line saying it works **without an engineer**, and an outcome I recognize instead of SDKs and rollouts." }
+      ]
+    },
+    {
+      "id": "wei", "initial": "W", "color": "#0ea5a0", "name": "Wei", "short": "startup CTO",
+      "tag": "No security answers on the funnel",
+      "meta": "44, CTO vetting tools, needs SOC 2 and a data-residency story",
+      "outcome": { "completed": false, "landedOn": "Signup, security unanswered" },
+      "chips": [
+        { "k": "Page", "v": "Landing → Pricing → Signup" },
+        { "k": "Entry", "v": "Direct / branded" },
+        { "k": "Mindset", "v": "Risk-averse" }
+      ],
+      "improvements": [
+        "Surface security on the funnel: SOC 2 / GDPR badges, a \"Security\" nav link, and data-residency options near pricing. **He won't put a flags tool in his production path without seeing them first.**",
+        "State whether flags can be evaluated locally or self-hosted (latency + data control) on the product or pricing page, not only in sales docs.",
+        "Add a short trust page (subprocessors, uptime SLA, incident history) linked from the footer and the Enterprise tier."
+      ],
+      "verbatim": "This sits in my request path in production. Before I sign up I need SOC 2, data residency, and a self-host story, and I can't find any of the three.",
+      "friction": { "n": 1, "severity": "S4", "text": "Security and self-host proof (SOC 2, data residency, local evaluation) is **absent from the entire pre-signup funnel**, so a risk-averse CTO will not start a trial of something that sits in his production request path." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "No. With no SOC 2, data residency, or self-host story on the funnel, **I had nothing to vet**, and this sits in my production path." },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "Pricing was legible but beside the point. **Security gates my decision, not the plan tiers**, and that was missing." },
+        { "q": "What was missing that would have made you commit?", "a": "SOC 2, data residency, and a self-host story, surfaced before signup. **Without those three I won't start a trial.**" }
+      ]
+    },
+    {
+      "id": "leo", "initial": "L", "color": "#d44d8a", "name": "Léo", "short": "agency owner",
+      "tag": "No lane for multi-client setups",
+      "meta": "39, runs a dev agency, sets up flags across many client projects",
+      "outcome": { "completed": false, "landedOn": "Pricing, no agency / multi-project lane" },
+      "chips": [
+        { "k": "Page", "v": "Landing → Pricing" },
+        { "k": "Entry", "v": "Agency Slack" },
+        { "k": "Mindset", "v": "Efficiency-seeking" }
+      ],
+      "improvements": [
+        "Clarify multi-project / multi-org pricing: can he manage many client workspaces under one account, and what does that cost? **The agency use case has no answer on the pricing page.**",
+        "Add an agency / partner angle (client workspaces, consolidated billing, managed-for-clients) even as a single line, so he sees himself.",
+        "Show whether projects and environments are unlimited or metered per workspace; he buys on per-client overhead, not per-seat."
+      ],
+      "verbatim": "I'd roll this out to a dozen client projects, but nothing tells me if that's one account or twelve, or what it costs. No agency angle anywhere.",
+      "friction": { "n": 1, "severity": "S3", "text": "The pricing page assumes one company with one workspace; there is **no multi-project or agency answer**, so a consultant who would deploy it across a dozen clients can't size it and stalls." },
+      "reflection": [
+        { "q": "Did the pages give you enough to trust Switchboard before signing up?", "a": "The tool seems solid, but with **no agency or multi-client answer** I couldn't tell if it fits how I'd actually use it." },
+        { "q": "Was it clear what the free tier includes and what costs money?", "a": "No. **Nothing said whether a dozen client workspaces is one account or twelve**, or what that would cost." },
+        { "q": "What was missing that would have made you commit?", "a": "A single line on multi-client setups, **client workspaces and consolidated billing**, and I'd have rolled it out across a dozen projects." }
+      ]
+    }
+  ],
+  "briefs": [
+    {
+      "id": "seo", "label": "Brief SEO",
+      "items": [
+        { "text": "Give the docs and SDK quickstart a crawlable, linked home in the top nav (not just the footer). It captures \"feature flags <framework>\" intent and is the thing that converts engineers.", "impact": "High impact", "effort": "~1h" },
+        "Publish a \"self-hosted / open-source feature flags\" page; it is a high-intent query (Sam, Léo) and is currently only answered deep in the docs.",
+        "Add a security / trust page (SOC 2, GDPR, data residency) that ranks for \"feature flags SOC 2\" and doubles as CTO proof."
+      ]
+    },
+    {
+      "id": "ux", "label": "Brief UX",
+      "items": [
+        { "text": "Put the SDK quickstart snippet and supported-framework logos on the landing page, next to the hero CTA.", "impact": "High impact", "effort": "Half-day" },
+        "State free-tier limits in numbers on the pricing card, and lead the pricing page with the free plan.",
+        "Replace \"Contact sales\" on the Team tier with a real per-seat price or range and a self-serve checkout.",
+        "Add a plain-language, product-team lane on the landing, separate from the developer one.",
+        "Surface security and self-host near pricing and signup (badges, a Security nav link, a trust page)."
+      ]
+    },
+    {
+      "id": "nomenclature", "label": "Copy & nomenclature",
+      "items": [
+        "Gloss or cut developer jargon (SDK, rollout, targeting rules) on first use, or split a \"for product teams\" path from the \"for developers\" one.",
+        "Name the free tier's caps explicitly (flags, environments, MAUs, seats) instead of \"generous free tier\".",
+        "Label the Team vs Pro difference in plain terms (seats, RBAC, SSO, audit log) in a comparison row."
+      ]
+    },
+    {
+      "id": "bugs", "label": "Bugs · quick wins",
+      "items": [
+        { "text": "Team plan shows \"Contact sales\" with no price (flagged by the buyer and the agency). Add a number or a clear range.", "impact": "Revenue", "effort": "~30 min" },
+        "Docs are reachable only by guessing the /docs URL; add a top-nav link (flagged by the engineer).",
+        "Free-tier limits are not stated anywhere on the pricing page; add them to the card.",
+        { "text": "No security / trust page exists, so enterprise evaluation dead-ends.", "impact": "Enterprise", "effort": "Half-day" }
+      ]
+    }
+  ]
+}

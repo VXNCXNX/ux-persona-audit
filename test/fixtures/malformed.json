@@ -1,0 +1,12 @@
+{
+  "_comment": "Deliberately malformed: no meta, one-line verdict, bad severity, non-boolean completed, numeric brief item. Exercises build_report.mjs validation warnings and the template's empty-state path.",
+  "verdict": [{ "tag": "only one", "text": "the design expects exactly three" }],
+  "personas": [
+    {
+      "id": "x", "name": "X",
+      "friction": { "severity": "S9", "text": "S9 is not a valid severity" },
+      "outcome": { "completed": "yes" }
+    }
+  ],
+  "briefs": [{ "id": "b", "label": "B", "items": [123] }]
+}

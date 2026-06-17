@@ -14,6 +14,8 @@ stall or backtrack, and the skill synthesizes it all into one standalone HTML re
 
 <p align="center"><em>A real run against linear.app, light and dark. Toggle lives in the header.</em></p>
 
+<p align="center"><strong><a href="https://vxncxnx.github.io/ux-persona-audit/">Open a live report →</a></strong> &nbsp;no clone, no install, just look</p>
+
 ## Why a panel
 
 A page that is obvious to one person is opaque to another, and the difference is

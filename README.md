@@ -1,5 +1,7 @@
 # ux-persona-audit
 
+[![skills.sh](https://skills.sh/b/VXNCXNX/ux-persona-audit)](https://skills.sh/VXNCXNX/ux-persona-audit)
+
 A [Claude Code](https://claude.com/claude-code) skill that audits a website's UX the
 way real traffic actually hits it: not as one average visitor, but as a *panel* of
 deliberately different people. A skeptic from Google, an impatient indie hacker off

@@ -55,7 +55,13 @@ Install with the [Skills CLI](https://github.com/vercel-labs/skills):
 npx skills add VXNCXNX/ux-persona-audit -g
 ```
 
-(or drop this folder into `~/.claude/skills/` by hand). Then just ask Claude:
+(or drop this folder into `~/.claude/skills/` by hand).
+
+> **Compatibility:** tested on Claude Code today. The skill is plain Markdown plus a
+> dependency-free Node build script, so it should travel to other skill-aware harnesses,
+> and broader support is coming. If your setup needs a tweak, open an issue.
+
+Then just ask Claude:
 
 > Audit the UX of example.com with a panel of personas.
 > Where do visitors get stuck on my landing page?

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UX Persona Audit</title>
+<script>
+  /* no-flash theme init: runs before paint. Order: #hash > saved choice > system. */
+  (function(){var d=document.documentElement,s=null;try{s=localStorage.getItem('ux-theme')}catch(e){}
+   var h=location.hash==='#dark'?'dark':location.hash==='#light'?'light':null;
+   var sys=(window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
+   d.setAttribute('data-theme',h||s||sys);})();
+</script>
+<style>
+  :root{
+    /* ── light (default, also no-JS fallback) ── */
+    --bg:#f6f7f9; --surface:#ffffff; --surface2:#fbfcfd;
+    --ink:#12151a; --body:#454b55; --muted:#767d87; --faint:#aab0b8;
+    --line:#e5e7ec; --line2:#d4d8df;
+    --accent:#0c7a52; --accent-bri:#0f9c66; --accent-soft:#e7f4ee; --accent-border:#c6e6d6; --quote:#bfe3d1;
+    --ok:#0c7a52; --pill-no-bg:#eef0f3;
+    --s4:#bf3328; --s4-bg:#fbeae8; --s3:#a4640d; --s3-bg:#fbf1e3; --s2:#7e6c10; --s2-bg:#faf6e1; --s1:#51607a; --s1-bg:#eef1f6;
+    --shadow:0 1px 2px rgba(20,30,40,.04), 0 22px 48px -28px rgba(20,40,30,.22);
+    --glow-orb:none; --ambient:radial-gradient(46% 34% at 82% -6%, rgba(15,156,102,.10), transparent 64%), radial-gradient(40% 30% at 4% 0%, rgba(15,156,102,.05), transparent 60%);
+    --av1-bg:#e7f4ee;--av1-fg:#0c7a52; --av2-bg:#f6efe2;--av2-fg:#a4640d; --av3-bg:#f8ebe9;--av3-fg:#bf3328;
+    --av4-bg:#e6f0f0;--av4-fg:#2c7a7a; --av5-bg:#eef0f3;--av5-fg:#5a6470; --av6-bg:#f2ebf1;--av6-fg:#8a5a82;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0c10; --surface:#12161d; --surface2:#161b23;
+    --ink:#f3f6f9; --body:#a9b2bd; --muted:#79828d; --faint:#525a64;
+    --line:#ffffff12; --line2:#ffffff24;
+    --accent:#5fe6c8; --accent-bri:#5fe6c8; --accent-soft:rgba(95,230,200,.09); --accent-border:rgba(95,230,200,.22); --quote:#2f7d6d;
+    --ok:#6ad98e; --pill-no-bg:rgba(255,255,255,.06);
+    --s4:#ff6f6f; --s4-bg:rgba(255,111,111,.1); --s3:#f2a644; --s3-bg:rgba(242,166,68,.1); --s2:#e6cf6a; --s2-bg:rgba(230,207,106,.1); --s1:#aab2c0; --s1-bg:rgba(255,255,255,.06);
+    --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 22px 54px -34px rgba(0,0,0,.75);
+    --glow-orb:0 0 14px 1px rgba(95,230,200,.7);
+    --ambient:radial-gradient(42% 34% at 78% -4%, rgba(95,230,200,.16), transparent 64%), radial-gradient(40% 30% at 6% 2%, rgba(95,230,200,.07), transparent 58%), radial-gradient(80% 60% at 50% 116%, rgba(120,140,255,.05), transparent 60%);
+    --av1-bg:#15302a;--av1-fg:#5fe6c8; --av2-bg:#2a2620;--av2-fg:#e0b46a; --av3-bg:#2a2024;--av3-fg:#e09090;
+    --av4-bg:#202a2a;--av4-fg:#7fcaca; --av5-bg:#26282e;--av5-fg:#aab2c0; --av6-bg:#2a242a;--av6-fg:#c79bc0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden;transition:background .4s var(--ease),color .4s var(--ease)}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--ambient)}
+  strong{font-weight:700;color:var(--ink)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+  .wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 44px 120px}
+
+  .top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 0 0;font-size:.8rem;color:var(--muted)}
+  .brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:700;letter-spacing:.01em}
+  .brand .orb{width:9px;height:9px;border-radius:50%;background:var(--accent-bri);box-shadow:var(--glow-orb)}
+  .top-r{display:flex;align-items:center;gap:14px;min-width:0}
+  .top-r .date{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top-r .date b{color:var(--body);font-weight:600}
+  .tgl{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;border:1px solid var(--line2);background:var(--surface);color:var(--muted);cursor:pointer;transition:color .25s,border-color .25s,background .25s}
+  .tgl:hover{color:var(--ink);border-color:var(--accent-border)}
+  .tgl svg{width:16px;height:16px}
+  .tgl .ic-sun{display:none} :root[data-theme="dark"] .tgl .ic-sun{display:block} :root[data-theme="dark"] .tgl .ic-moon{display:none}
+
+  .hero{padding:64px 0 34px;max-width:980px}
+  .kicker{display:flex;align-items:center;gap:12px;font-size:.82rem;color:var(--muted);margin-bottom:26px;flex-wrap:wrap}
+  .kicker .site{color:var(--ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.74rem}
+  .kicker .path{font-family:var(--mono);font-size:.78rem;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-border);padding:3px 9px;border-radius:7px;white-space:nowrap}
+  h1{font-size:clamp(2.6rem,5.6vw,4.0rem);font-weight:800;letter-spacing:-.04em;line-height:1.02;margin:0;color:var(--ink);text-wrap:balance;max-width:780px}
+  h1 .lead{color:var(--accent);display:block}
+  .standfirst{margin:30px 0 0;font-size:1.18rem;color:var(--body);max-width:60ch;line-height:1.6}
+  .standfirst strong{color:var(--ink);font-weight:600}
+
+  .cast{margin:48px 0 0;display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+  .person-chip{padding:18px;border-left:1px solid var(--line);transition:background .3s var(--ease)}
+  .person-chip:first-child{border-left:none}
+  .person-chip:hover{background:var(--surface2)}
+  .chip-top{display:flex;align-items:center;justify-content:space-between}
+  .mono-av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.96rem}
+  .dot{width:8px;height:8px;border-radius:50%}
+  .dot.ok{background:var(--accent-bri)} .dot.no{background:var(--faint)}
+  .chip-name{margin-top:14px;font-weight:700;color:var(--ink);font-size:.98rem}
+  .chip-role{font-size:.8rem;color:var(--muted)}
+
+  section{padding-top:88px}
+  .slabel{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.02em;margin-bottom:14px}
+  h2{font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:800;letter-spacing:-.025em;color:var(--ink);margin:0 0 30px;line-height:1.08;text-wrap:balance}
+
+  .pattern .row{padding:26px 0;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;border-top:1px solid var(--line)}
+  .pattern .row:first-child{border-top:none;padding-top:0}
+  .pattern .mk{font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-.02em}
+  .pattern p{margin:0;font-size:1.14rem;color:var(--body);line-height:1.55;max-width:72ch}
+  .pattern p strong,.pattern p b{color:var(--ink);font-weight:600}
+
+  .entry{display:grid;grid-template-columns:248px 1fr;gap:46px;padding:48px 0;border-top:1px solid var(--line)}
+  .entry:first-of-type{border-top:none;padding-top:8px}
+  .pf-port{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:1.5rem;margin-bottom:18px}
+  .pf-name{font-size:1.55rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.05}
+  .pf-role{font-size:.92rem;color:var(--muted);margin-top:3px}
+  .pf-bio{font-size:.9rem;color:var(--muted);margin-top:14px;line-height:1.5;max-width:30ch}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;padding:6px 12px;border-radius:999px;margin-top:18px}
+  .pill.ok{color:var(--accent);background:var(--accent-soft)} .pill.no{color:var(--muted);background:var(--pill-no-bg)}
+  .pf-meta{margin-top:20px;display:grid;gap:9px;font-size:.84rem}
+  .pf-meta .k{color:var(--faint);min-width:74px} .pf-meta .v{color:var(--body)}
+  .pf-meta div{display:flex;gap:8px}
+
+  blockquote{margin:0;font-size:clamp(1.45rem,2.4vw,2.0rem);font-weight:600;line-height:1.3;color:var(--ink);letter-spacing:-.02em;position:relative;text-wrap:pretty;max-width:24ch}
+  blockquote::before{content:"\201C";position:absolute;left:-.58em;top:-.16em;font-size:2.6em;line-height:1;color:var(--quote);font-weight:800}
+  .attrib{margin:20px 0 0;font-size:.86rem;color:var(--muted)}
+  .attrib b{color:var(--body);font-weight:700}
+  .help{margin-top:30px;font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:10px}
+  .analysis{font-size:1.05rem;color:var(--body);line-height:1.62;max-width:64ch;margin:0}
+  .analysis + .analysis{margin-top:13px}
+  .analysis strong,.analysis b{color:var(--ink);font-weight:600}
+  .friction{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
+  .friction .ft{font-size:.97rem;color:var(--body);line-height:1.55;max-width:60ch}
+  .friction .ft strong,.friction .ft b{color:var(--ink);font-weight:600}
+
+  .sev{font-family:var(--mono);font-size:.76rem;font-weight:700;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border-radius:8px}
+  .sev .sd{width:7px;height:7px;border-radius:50%}
+  .sev.s4{color:var(--s4);background:var(--s4-bg)} .sev.s4 .sd{background:var(--s4)}
+  .sev.s3{color:var(--s3);background:var(--s3-bg)} .sev.s3 .sd{background:var(--s3)}
+  .sev.s2{color:var(--s2);background:var(--s2-bg)} .sev.s2 .sd{background:var(--s2)}
+  .sev.s1{color:var(--s1);background:var(--s1-bg)} .sev.s1 .sd{background:var(--s1)}
+
+  .ledger{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
+  .lrow{padding:20px 26px;display:grid;grid-template-columns:34px 86px 1fr;gap:20px;align-items:start;border-top:1px solid var(--line)}
+  .lrow:first-child{border-top:none}
+  .lrow .rank{font-size:1.05rem;font-weight:800;color:var(--faint);line-height:1.5}
+  .lrow .sev{margin-top:2px}
+  .lrow .what{font-size:1rem;color:var(--ink);line-height:1.5}
+  .lrow .what strong,.lrow .what b{font-weight:600}
+  .lrow .what .who{color:var(--muted);font-size:.86rem;display:block;margin-top:3px;font-weight:400}
+
+  .exit{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
+  .exq{padding:24px 28px;border-top:1px solid var(--line)}
+  .exq:first-child{border-top:none}
+  .exq-q{margin:0;font-size:1.08rem;font-weight:700;color:var(--ink);line-height:1.4;letter-spacing:-.01em;max-width:60ch}
+  .exa{display:grid;grid-template-columns:30px 1fr;gap:13px;align-items:start;padding:14px 0 2px}
+  .exa+.exa{border-top:1px solid var(--line);padding-top:14px}
+  .mini-av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.78rem;margin-top:1px}
+  .exa .ans{margin:0;font-size:.98rem;color:var(--body);line-height:1.55;max-width:66ch}
+  .exa .ans .nm{color:var(--ink);font-weight:700;margin-right:8px}
+  .exa .ans strong,.exa .ans b{color:var(--ink);font-weight:600}
+
+  .recgroup{margin-bottom:32px}
+  .recgroup:last-child{margin-bottom:0}
+  .recgroup h3{font-size:.92rem;color:var(--ink);font-weight:800;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  .recgroup h3::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent-bri)}
+  .rec{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line);font-size:1.03rem;color:var(--body)}
+  .rec:last-child{border-bottom:none}
+  .rec strong,.rec b{color:var(--ink);font-weight:600}
+  .chips{display:flex;gap:7px;white-space:nowrap}
+  .c{font-size:.74rem;font-weight:600;padding:3px 9px;border-radius:7px;border:1px solid var(--line2);color:var(--muted)}
+  .c.hi{color:var(--accent);border-color:var(--accent-border);background:var(--accent-soft)}
+
+  footer{margin-top:88px;padding-top:24px;border-top:1px solid var(--line);font-size:.8rem;color:var(--faint);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .empty{position:relative;z-index:1;max-width:560px;margin:140px auto;text-align:center;color:var(--muted);padding:0 24px}
+  .empty h2{color:var(--ink);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;margin:0 0 12px}
+  .empty code{font-family:var(--mono);font-size:.86em;background:var(--surface);border:1px solid var(--line);padding:2px 7px;border-radius:6px;color:var(--body)}
+
+  .av1{background:var(--av1-bg);color:var(--av1-fg)} .av2{background:var(--av2-bg);color:var(--av2-fg)} .av3{background:var(--av3-bg);color:var(--av3-fg)}
+  .av4{background:var(--av4-bg);color:var(--av4-fg)} .av5{background:var(--av5-bg);color:var(--av5-fg)} .av6{background:var(--av6-bg);color:var(--av6-fg)}
+
+  @media screen and (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(14px);animation:rise .7s var(--ease) forwards}
+    .cast .person-chip{opacity:0;animation:fade .6s var(--ease) forwards;animation-delay:calc(var(--i)*70ms)}
+  }
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes fade{to{opacity:1}}
+
+  @media (max-width:860px){
+    .wrap{padding:0 22px 90px}
+    .cast{grid-template-columns:repeat(3,1fr)}
+    .person-chip{border-top:1px solid var(--line)}
+    .person-chip:nth-child(-n+3){border-top:none}
+    .person-chip:nth-child(3n+1){border-left:none}
+    .entry{grid-template-columns:1fr;gap:24px}
+    .pf-bio,blockquote{max-width:none}
+    .lrow{grid-template-columns:30px 1fr;gap:8px 14px}
+    .lrow .sev{grid-column:2}
+    .exq{padding:20px 18px}
+  }
+  @media (max-width:460px){ .cast{grid-template-columns:repeat(2,1fr)} .person-chip:nth-child(3n+1){border-left:1px solid var(--line)} .person-chip:nth-child(2n+1){border-left:none} }
+
+  @media print{
+    :root,:root[data-theme="dark"]{
+      --bg:#fff;--surface:#fff;--surface2:#fff;--ink:#111;--body:#333;--muted:#666;--faint:#999;--line:#ddd;--line2:#ccc;
+      --accent:#0c7a52;--accent-bri:#0c7a52;--accent-soft:#eef6f1;--accent-border:#cde7da;--quote:#bfe3d1;--pill-no-bg:#f0f1f3;--shadow:none;--glow-orb:none;--ambient:none;
+      --av1-bg:#e7f4ee;--av1-fg:#0c7a52;--av2-bg:#f6efe2;--av2-fg:#a4640d;--av3-bg:#f8ebe9;--av3-fg:#bf3328;--av4-bg:#e6f0f0;--av4-fg:#2c7a7a;--av5-bg:#eef0f3;--av5-fg:#5a6470;--av6-bg:#f2ebf1;--av6-fg:#8a5a82;
+    }
+    body::before{display:none} .tgl{display:none} section{padding-top:38px}
+    .entry,.friction,.ledger,.cast,.exq{break-inside:avoid}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script id="ux-data" type="application/json">{"meta":{"brand":"Switchboard","descriptor":"feature-flag SaaS","headline":"Six buyers walked the funnel.","headlineLead":"One made it through.","standfirst":"Six prospective buyers, each arriving from a different place and in a different state of mind, walked the real Switchboard signup flow. **Five left before converting.** Here is what stopped each of them, in their own words.","eyebrow":"UX AUDIT · PRICING · DEVELOPER TRUST","title":"The landing → pricing → signup flow, seen by 6 real buyers.","title_highlights":["landing → pricing → signup"],"subtitle":"Six personas, each arriving from a different place and in a different state of mind, walked the real Switchboard pages (a feature-flag and experimentation SaaS) and reasoned their path from the landing page to the signup form. Here, per person, what to improve, then the consolidated SEO, UX, copy, and bug briefs.","site":"switchboard.example","date":"17 June 2026","flowLabel":"Flow","flow":["landing","pricing","signup"],"method":"reasoned","stats":[{"value":"6","label":"personas simulated"},{"value":"5","label":"entry sources"},{"value":"3","label":"funnel steps tested"}]},"ui":{"cast":"The panel","personasTitle":"Where each buyer broke.","exitTitle":"What the six buyers said after.","matrixSubtitle":"6 buyers, 5 entry sources, landing through signup.","personasSubtitle":"Each card = one buyer's path and the concrete fixes it surfaces.","completed":"Signed up","dropped":"Bounced"},"verdict":[{"tag":"Pricing hides where buyers decide","text":"the number a buyer needs is missing exactly where they look: free-tier limits are vague, the Team plan says \"contact sales\", and both the solo dev and the eng manager **leave the pricing page unable to do the math.**"},{"tag":"Proof sits off the funnel","text":"your DX, security, and self-host answers exist, but they live in the docs and the footer, not next to the signup CTA. The engineer who needs an SDK and the CTO who needs SOC 2 both **decide where credibility is lowest.**"},{"tag":"Signup asks too much, too early","text":"developer-only copy on the landing and a heavy form push the non-technical PM and the price-shy indie out before any value shows. **The one buyer who converts is the engineer who came to read code, not to be sold.**"}],"matrix":{"columns":["Persona","Looking for","Arrives from","Mindset","Lands on"],"rows":[{"persona":"Sam","cells":["A free / self-host flags tool","Google search","Skeptic, price-shy","Pricing, free limit unclear"]},{"persona":"Priya","cells":["A clean SDK + good docs","Hacker News thread","DX-driven","Free signup, trying the SDK"]},{"persona":"Marcus","cells":["Team seats + RBAC pricing","Peer referral","Pragmatic buyer","\"Contact sales\" dead-end"]},{"persona":"Dana","cells":["Plain-language experiments","LinkedIn ad","Non-technical, unsure","Landing, lost in jargon"]},{"persona":"Wei","cells":["Security + self-host proof","Direct / branded","Risk-averse CTO","Signup, security unanswered"]},{"persona":"Léo","cells":["Multi-client / agency setup","Agency Slack","Efficiency-seeking","Pricing, no agency lane"]}]},"personas":[{"id":"sam","initial":"S","color":"#2f6fed","name":"Sam","short":"indie dev","tag":"Can't find the free-tier line","meta":"29, solo dev shipping a side project, wants flags without a bill","outcome":{"completed":false,"landedOn":"Pricing page, free limits unclear"},"chips":[{"k":"Page","v":"Landing → Pricing"},{"k":"Entry","v":"Google « open-source feature flags »"},{"k":"Mindset","v":"Skeptic, price-shy"}],"improvements":["State the free tier's real limits in numbers on the pricing card (flags, environments, MAUs, seats), next to the plan, not in a tooltip. **He will not sign up until he knows what \"free\" actually caps.**","Answer \"can I self-host?\" on the pricing page itself; the open-source / self-host question is his entry intent and today it is only addressed deep in the docs.","Lead the pricing page with the free plan, not the per-seat Team tier; a price-shy solo dev reads the first number he sees as \"the price\" and bounces."],"verbatim":"Just tell me what the free tier actually caps, flags, environments, seats, before I wire your SDK into my repo. \"Contact us\" is not a price.","friction":{"n":1,"severity":"S3","text":"Free-tier limits are not stated in numbers on the pricing page, and the self-host question he arrived with is buried in docs, so a **price-shy solo dev can't tell if \"free\" fits him** and leaves."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"The product looked fine, trust wasn't the issue. **The missing free-tier number is.** I can't commit to a price I can't see."},{"q":"Was it clear what the free tier includes and what costs money?","a":"No, and that was the dealbreaker. **The free tier's real caps, flags, environments, seats, are nowhere on the pricing page.**"},{"q":"What was missing that would have made you commit?","a":"Free-tier limits in plain numbers on the card, plus a self-host line. **Give me those and I'd have signed up.**"}]},{"id":"priya","initial":"P","color":"#6b54c6","name":"Priya","short":"frontend engineer","tag":"Converts on the SDK quickstart","meta":"33, frontend engineer evaluating flags for her team's React app","outcome":{"completed":true,"landedOn":"Free signup, running the SDK"},"chips":[{"k":"Page","v":"Landing → Docs → Signup"},{"k":"Entry","v":"Hacker News thread"},{"k":"Mindset","v":"DX-driven"}],"improvements":["Surface the SDK quickstart and a copy-paste snippet on the landing page, not only in the docs. **It is what actually converts her; today she had to dig for it.**","Show supported-framework logos (React, Node, Go, ...) near the hero so she sees first-class support at a glance.","Link \"Docs\" from the top nav, not just the footer; she found them by guessing the /docs URL."],"verbatim":"Honestly the quickstart sold me, three lines and the flag flipped. I just wish I hadn't had to guess the /docs URL to find it.","friction":{"n":1,"severity":"S2","text":"The one thing that converts her, a clean SDK quickstart, is **only reachable by guessing the docs URL**: it is absent from the landing and the top nav. She succeeded despite the funnel, not because of it."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"The quickstart did it. Three lines of working SDK earns more trust than any badge, **I just had to dig to find it.**"},{"q":"Was it clear what the free tier includes and what costs money?","a":"Free was enough to run the SDK, which is all I needed, **but I confirmed that by trying it, not from the pricing page.**"},{"q":"What was missing that would have made you commit?","a":"Almost nothing, I converted. **Put the quickstart on the landing and link Docs in the nav** so the next engineer doesn't guess the URL."}]},{"id":"marcus","initial":"M","color":"#3aa17e","name":"Marcus","short":"eng manager","tag":"Team pricing is a \"contact sales\" wall","meta":"41, engineering manager sizing a rollout for a 25-person team","outcome":{"completed":false,"landedOn":"\"Contact sales\", no number to evaluate"},"chips":[{"k":"Page","v":"Landing → Pricing → Team"},{"k":"Entry","v":"Peer referral"},{"k":"Mindset","v":"Pragmatic buyer"}],"improvements":["Put a real per-seat number (or a clear \"starts at\" range) on the Team plan. **\"Contact sales\" on the one tier he can buy stops his evaluation cold.**","List what Team adds over Pro in a comparison row (RBAC, SSO, audit log, seats) so he can justify the upgrade internally.","Offer a self-serve Team checkout; a 25-person team is too big for Pro and too small to want a sales call."],"verbatim":"I have budget and 25 seats ready. You're making me book a call to learn a price I'd have paid on the spot. I'll go look at the one that shows the number.","friction":{"n":1,"severity":"S4","text":"The Team plan, the only tier that fits 25 seats, **shows \"Contact sales\" instead of a price**, so a ready-to-buy manager cannot evaluate it and leaves for a competitor that lists one."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"Trust wasn't the blocker. **I couldn't even get a Team price to evaluate**, so there was nothing to weigh up."},{"q":"Was it clear what the free tier includes and what costs money?","a":"Free and Pro were readable. **Team, the only tier I can buy, just says 'contact sales'**, so the part that matters to me wasn't clear at all."},{"q":"What was missing that would have made you commit?","a":"A real Team price, or a 'starts at' range, with self-serve checkout. **I had budget and 25 seats ready to go.**"}]},{"id":"dana","initial":"D","color":"#e0892f","name":"Dana","short":"growth PM","tag":"Lost in developer jargon","meta":"36, growth PM who runs experiments but does not write code","outcome":{"completed":false,"landedOn":"Landing, bounced on jargon"},"chips":[{"k":"Page","v":"Landing"},{"k":"Entry","v":"LinkedIn ad"},{"k":"Mindset","v":"Non-technical, unsure"}],"improvements":["Add one plain-language line above the dev jargon: \"Turn features on or off and run experiments, no deploy or engineer required.\" **She runs experiments, but the page only speaks to developers.**","Show an outcome she recognizes (a before/after experiment, a conversion lift) instead of SDKs and rollouts.","Gloss or cut \"feature flag\", \"SDK\", \"rollout\", \"targeting rules\" on first use, or give product teams their own lane separate from the developer one."],"verbatim":"The ad said \"run experiments faster\". The site is all SDKs and rollouts. Is this even for someone like me, or just for my engineers?","friction":{"n":1,"severity":"S3","text":"The landing speaks only to developers (SDKs, rollouts, targeting rules) with **no plain-language entry for the non-technical PM** the LinkedIn ad brought in, so she can't tell the product is for her."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"I couldn't tell if it was even **for someone non-technical like me**, so trust never got a chance to form."},{"q":"Was it clear what the free tier includes and what costs money?","a":"Not really, but pricing wasn't where I got lost. **I bounced on the landing before I ever reached it.**"},{"q":"What was missing that would have made you commit?","a":"One plain line saying it works **without an engineer**, and an outcome I recognize instead of SDKs and rollouts."}]},{"id":"wei","initial":"W","color":"#0ea5a0","name":"Wei","short":"startup CTO","tag":"No security answers on the funnel","meta":"44, CTO vetting tools, needs SOC 2 and a data-residency story","outcome":{"completed":false,"landedOn":"Signup, security unanswered"},"chips":[{"k":"Page","v":"Landing → Pricing → Signup"},{"k":"Entry","v":"Direct / branded"},{"k":"Mindset","v":"Risk-averse"}],"improvements":["Surface security on the funnel: SOC 2 / GDPR badges, a \"Security\" nav link, and data-residency options near pricing. **He won't put a flags tool in his production path without seeing them first.**","State whether flags can be evaluated locally or self-hosted (latency + data control) on the product or pricing page, not only in sales docs.","Add a short trust page (subprocessors, uptime SLA, incident history) linked from the footer and the Enterprise tier."],"verbatim":"This sits in my request path in production. Before I sign up I need SOC 2, data residency, and a self-host story, and I can't find any of the three.","friction":{"n":1,"severity":"S4","text":"Security and self-host proof (SOC 2, data residency, local evaluation) is **absent from the entire pre-signup funnel**, so a risk-averse CTO will not start a trial of something that sits in his production request path."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"No. With no SOC 2, data residency, or self-host story on the funnel, **I had nothing to vet**, and this sits in my production path."},{"q":"Was it clear what the free tier includes and what costs money?","a":"Pricing was legible but beside the point. **Security gates my decision, not the plan tiers**, and that was missing."},{"q":"What was missing that would have made you commit?","a":"SOC 2, data residency, and a self-host story, surfaced before signup. **Without those three I won't start a trial.**"}]},{"id":"leo","initial":"L","color":"#d44d8a","name":"Léo","short":"agency owner","tag":"No lane for multi-client setups","meta":"39, runs a dev agency, sets up flags across many client projects","outcome":{"completed":false,"landedOn":"Pricing, no agency / multi-project lane"},"chips":[{"k":"Page","v":"Landing → Pricing"},{"k":"Entry","v":"Agency Slack"},{"k":"Mindset","v":"Efficiency-seeking"}],"improvements":["Clarify multi-project / multi-org pricing: can he manage many client workspaces under one account, and what does that cost? **The agency use case has no answer on the pricing page.**","Add an agency / partner angle (client workspaces, consolidated billing, managed-for-clients) even as a single line, so he sees himself.","Show whether projects and environments are unlimited or metered per workspace; he buys on per-client overhead, not per-seat."],"verbatim":"I'd roll this out to a dozen client projects, but nothing tells me if that's one account or twelve, or what it costs. No agency angle anywhere.","friction":{"n":1,"severity":"S3","text":"The pricing page assumes one company with one workspace; there is **no multi-project or agency answer**, so a consultant who would deploy it across a dozen clients can't size it and stalls."},"reflection":[{"q":"Did the pages give you enough to trust Switchboard before signing up?","a":"The tool seems solid, but with **no agency or multi-client answer** I couldn't tell if it fits how I'd actually use it."},{"q":"Was it clear what the free tier includes and what costs money?","a":"No. **Nothing said whether a dozen client workspaces is one account or twelve**, or what that would cost."},{"q":"What was missing that would have made you commit?","a":"A single line on multi-client setups, **client workspaces and consolidated billing**, and I'd have rolled it out across a dozen projects."}]}],"briefs":[{"id":"seo","label":"Brief SEO","items":[{"text":"Give the docs and SDK quickstart a crawlable, linked home in the top nav (not just the footer). It captures \"feature flags \u003cframework\u003e\" intent and is the thing that converts engineers.","impact":"High impact","effort":"~1h"},"Publish a \"self-hosted / open-source feature flags\" page; it is a high-intent query (Sam, Léo) and is currently only answered deep in the docs.","Add a security / trust page (SOC 2, GDPR, data residency) that ranks for \"feature flags SOC 2\" and doubles as CTO proof."]},{"id":"ux","label":"Brief UX","items":[{"text":"Put the SDK quickstart snippet and supported-framework logos on the landing page, next to the hero CTA.","impact":"High impact","effort":"Half-day"},"State free-tier limits in numbers on the pricing card, and lead the pricing page with the free plan.","Replace \"Contact sales\" on the Team tier with a real per-seat price or range and a self-serve checkout.","Add a plain-language, product-team lane on the landing, separate from the developer one.","Surface security and self-host near pricing and signup (badges, a Security nav link, a trust page)."]},{"id":"nomenclature","label":"Copy & nomenclature","items":["Gloss or cut developer jargon (SDK, rollout, targeting rules) on first use, or split a \"for product teams\" path from the \"for developers\" one.","Name the free tier's caps explicitly (flags, environments, MAUs, seats) instead of \"generous free tier\".","Label the Team vs Pro difference in plain terms (seats, RBAC, SSO, audit log) in a comparison row."]},{"id":"bugs","label":"Bugs · quick wins","items":[{"text":"Team plan shows \"Contact sales\" with no price (flagged by the buyer and the agency). Add a number or a clear range.","impact":"Revenue","effort":"~30 min"},"Docs are reachable only by guessing the /docs URL; add a top-nav link (flagged by the engineer).","Free-tier limits are not stated anywhere on the pricing page; add them to the card.",{"text":"No security / trust page exists, so enterprise evaluation dead-ends.","impact":"Enterprise","effort":"Half-day"}]}]}</script>
+<script>
+(function(){
+  var DEFAULT_UI={
+    completed:"Completed", dropped:"Dropped",
+    patternLabel:"The pattern",
+    personasLabel:"Person by person", personasTitle:"Where each visitor broke.",
+    ledgerLabel:"Friction ledger", ledgerTitle:"Every block, worst first.",
+    exitLabel:"Exit interview", exitTitle:"What the panel said after.",
+    recsLabel:"Recommendations", recsTitle:"What to fix, in order.",
+    help:"What would help",
+    methodReasoned:"Reasoned walkthrough", methodClicked:"Click-tested"
+  };
+  var raw=document.getElementById("ux-data").textContent;
+  var DATA=null; try{DATA=JSON.parse(raw);}catch(e){}
+  var app=document.getElementById("app");
+
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function md(s){return esc(s).replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");}
+  function capFirst(s){s=String(s==null?"":s);return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+  function sevNorm(s){var n=String(s==null?"":s).toUpperCase().replace(/[^S1-4]/g,"");return /^S[1-4]$/.test(n)?n:"";}
+  function sevTag(s){var n=sevNorm(s);if(!n)return "";return '<span class="sev '+n.toLowerCase()+'"><span class="sd"></span>'+n+'</span>';}
+  function avc(i){return " av"+((i%6)+1);}
+  function initialOf(p){return p.initial||String(p.name||"?").charAt(0);}
+  function deriveBrand(site){if(!site)return "";return String(site).replace(/^https?:\/\//,"").split("/")[0].split(".")[0];}
+
+  if(!DATA||!DATA.meta){
+    app.innerHTML='<div class="empty"><h2>No report data</h2>'+
+      '<p>Build this report with <code>scripts/build_report.mjs &lt;data.json&gt;</code> so the '+
+      'data placeholder is replaced with your audit data.</p></div>';
+    return;
+  }
+  var ui=Object.assign({},DEFAULT_UI,DATA.ui||{});
+  var m=DATA.meta;
+  var personas=Array.isArray(DATA.personas)?DATA.personas:[];
+
+  // ── icons ──
+  var MOON='<svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  var SUN='<svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+
+  // ── top bar ──
+  var dateTxt=(m.site?esc(m.site):'')+(m.site&&m.date?' · ':'')+(m.date?'<b>'+esc(m.date)+'</b>':'');
+  var topBar='<div class="top"><div class="brand"><span class="orb"></span>UX Persona Audit</div>'+
+    '<div class="top-r"><button class="tgl" id="themeToggle" type="button" aria-label="Toggle light or dark theme">'+MOON+SUN+'</button>'+
+    (dateTxt?'<span class="date">'+dateTxt+'</span>':'')+'</div></div>';
+
+  // ── hero ──
+  var brand=m.brand||deriveBrand(m.site);
+  var pathStr=(m.flow&&m.flow.length)?m.flow.join(" → "):"";
+  var kicker='<div class="kicker">'+
+    (brand?'<span class="site">'+esc(brand)+'</span>':'')+
+    (m.descriptor?'<span>'+esc(m.descriptor)+'</span>':'')+
+    (pathStr?'<span class="path">'+esc(pathStr)+'</span>':'')+'</div>';
+  var head=m.headline||m.title||"";
+  var lead=m.headlineLead||"";
+  var h1='<h1>'+esc(head)+(lead?' <span class="lead">'+esc(lead)+'</span>':'')+'</h1>';
+  var sf=m.standfirst||m.subtitle||"";
+  var hero='<header class="hero">'+kicker+h1+(sf?'<p class="standfirst">'+md(sf)+'</p>':'')+'</header>';
+
+  // ── cast strip ──
+  var cast='';
+  if(personas.length){
+    cast='<div class="cast">'+personas.map(function(p,i){
+      var done=p.outcome&&p.outcome.completed===true;
+      return '<div class="person-chip" style="--i:'+i+'"><div class="chip-top">'+
+        '<span class="mono-av'+avc(i)+'">'+esc(initialOf(p))+'</span>'+
+        '<span class="dot '+(done?'ok':'no')+'"></span></div>'+
+        '<div class="chip-name">'+esc(p.name)+'</div>'+
+        (p.short?'<div class="chip-role">'+esc(p.short)+'</div>':'')+'</div>';
+    }).join("")+'</div>';
+  }
+
+  // ── the pattern (verdict) ──
+  var pattern='';
+  if(Array.isArray(DATA.verdict)&&DATA.verdict.length){
+    var rows=DATA.verdict.map(function(v,i){
+      var n=("0"+(i+1)).slice(-2);
+      var body=(v.tag?'<strong>'+esc(v.tag)+'.</strong> ':'')+md(capFirst(v.text||""));
+      return '<div class="row"><span class="mk">'+n+'</span><p>'+body+'</p></div>';
+    }).join("");
+    pattern='<section><div class="slabel reveal">'+esc(ui.patternLabel)+'</div>'+
+      '<div class="pattern reveal">'+rows+'</div></section>';
+  }
+
+  // ── person by person ──
+  var people='';
+  if(personas.length){
+    var entries=personas.map(function(p,i){
+      var outcome="";
+      if(p.outcome&&typeof p.outcome.completed==="boolean"){
+        outcome='<span class="pill '+(p.outcome.completed?'ok':'no')+'"><span class="dot '+(p.outcome.completed?'ok':'no')+'"></span>'+
+          esc(p.outcome.completed?ui.completed:ui.dropped)+'</span>';
+      }
+      var meta2=(p.chips||[]).map(function(c){
+        return '<div><span class="k">'+esc(c.k)+'</span><span class="v">'+esc(c.v)+'</span></div>';
+      }).join("");
+      var quote=p.verbatim?'<blockquote>'+esc(p.verbatim)+'</blockquote>'+
+        '<p class="attrib">&mdash; <b>'+esc(p.name)+'</b>'+(p.short?', '+esc(p.short):'')+'</p>':'';
+      var imp=(p.improvements||[]).map(function(t){return '<p class="analysis">'+md(t)+'</p>';}).join("");
+      var fr="";
+      if(p.friction&&p.friction.text){
+        fr='<div class="friction"><div class="ft">'+md(p.friction.text)+'</div>'+sevTag(p.friction.severity)+'</div>';
+      }
+      return '<div class="entry reveal"><div>'+
+        '<div class="pf-port'+avc(i)+'">'+esc(initialOf(p))+'</div>'+
+        '<div class="pf-name">'+esc(p.name)+'</div>'+(p.short?'<div class="pf-role">'+esc(p.short)+'</div>':'')+
+        (p.meta?'<div class="pf-bio">'+esc(p.meta)+'</div>':'')+outcome+
+        (meta2?'<div class="pf-meta">'+meta2+'</div>':'')+
+        '</div><div>'+quote+
+        '<p class="help">'+esc(ui.help)+' '+esc(p.name)+'</p>'+imp+fr+
+        '</div></div>';
+    }).join("");
+    people='<section><div class="slabel reveal">'+esc(ui.personasLabel)+'</div>'+
+      '<h2 class="reveal">'+esc(ui.personasTitle)+'</h2>'+entries+'</section>';
+  }
+
+  // ── friction ledger (derived, ranked worst-first) ──
+  var ledger='';
+  var SEVW={S4:4,S3:3,S2:2,S1:1};
+  var fr=personas.map(function(p,i){return {p:p,i:i};})
+    .filter(function(x){return x.p.friction&&x.p.friction.text;})
+    .sort(function(a,b){
+      var wa=SEVW[sevNorm(a.p.friction.severity)]||0, wb=SEVW[sevNorm(b.p.friction.severity)]||0;
+      return wb-wa || a.i-b.i;
+    });
+  if(fr.length){
+    var lrows=fr.map(function(x,idx){
+      var p=x.p, f=p.friction;
+      var who=esc(p.name)+(p.short?' · '+esc(p.short):'');
+      return '<div class="lrow"><span class="rank">'+(idx+1)+'</span>'+sevTag(f.severity)+
+        '<span class="what">'+md(f.text)+'<span class="who">'+who+'</span></span></div>';
+    }).join("");
+    ledger='<section><div class="slabel reveal">'+esc(ui.ledgerLabel)+'</div>'+
+      '<h2 class="reveal">'+esc(ui.ledgerTitle)+'</h2><div class="ledger reveal">'+lrows+'</div></section>';
+  }
+
+  // ── exit interview (post-walkthrough reflections, pivoted by question) ──
+  var exit='';
+  var withRef=personas.map(function(p,i){return {p:p,i:i};})
+    .filter(function(x){return Array.isArray(x.p.reflection)&&x.p.reflection.length;});
+  if(withRef.length){
+    var maxQ=0; withRef.forEach(function(x){if(x.p.reflection.length>maxQ)maxQ=x.p.reflection.length;});
+    var exblocks=[];
+    for(var qi=0;qi<maxQ;qi++){
+      var qText="";
+      for(var k=0;k<withRef.length;k++){var rr=withRef[k].p.reflection[qi];if(rr&&rr.q){qText=rr.q;break;}}
+      if(!qText)continue;
+      var answers=withRef.map(function(x){
+        var r=x.p.reflection[qi];
+        if(!r||!r.a)return "";
+        return '<div class="exa"><span class="mini-av'+avc(x.i)+'">'+esc(initialOf(x.p))+'</span>'+
+          '<p class="ans"><span class="nm">'+esc(x.p.name)+'</span>'+md(r.a)+'</p></div>';
+      }).join("");
+      if(!answers)continue;
+      exblocks.push('<div class="exq"><p class="exq-q">'+esc(qText)+'</p>'+answers+'</div>');
+    }
+    if(exblocks.length){
+      exit='<section><div class="slabel reveal">'+esc(ui.exitLabel)+'</div>'+
+        '<h2 class="reveal">'+esc(ui.exitTitle)+'</h2><div class="exit reveal">'+exblocks.join("")+'</div></section>';
+    }
+  }
+
+  // ── recommendations (briefs) ──
+  var recs='';
+  if(Array.isArray(DATA.briefs)&&DATA.briefs.length){
+    var groups=DATA.briefs.map(function(b){
+      var items=(b.items||[]).map(function(it){
+        var text=typeof it==="string"?it:(it&&it.text)||"";
+        var chips="";
+        if(it&&typeof it==="object"){
+          if(it.impact) chips+='<span class="c hi">'+esc(it.impact)+'</span>';
+          if(it.effort) chips+='<span class="c">'+esc(it.effort)+'</span>';
+        }
+        return '<div class="rec"><span>'+md(text)+'</span>'+(chips?'<span class="chips">'+chips+'</span>':'')+'</div>';
+      }).join("");
+      return '<div class="recgroup reveal"><h3>'+esc(b.label)+'</h3>'+items+'</div>';
+    }).join("");
+    recs='<section><div class="slabel reveal">'+esc(ui.recsLabel)+'</div>'+
+      '<h2 class="reveal">'+esc(ui.recsTitle)+'</h2>'+groups+'</section>';
+  }
+
+  // ── footer ──
+  var methodLabel=m.method?(m.method==="clicked"?ui.methodClicked:ui.methodReasoned):"";
+  var footRight=(methodLabel?esc(methodLabel):'')+(methodLabel&&m.site?' · ':'')+(m.site?esc(m.site):'');
+  var footer='<footer><span>Generated by the ux-persona-audit skill</span>'+(footRight?'<span>'+footRight+'</span>':'')+'</footer>';
+
+  app.innerHTML='<div class="wrap">'+topBar+hero+cast+pattern+people+exit+ledger+recs+footer+'</div>';
+
+  // ── theme toggle ──
+  var btn=document.getElementById("themeToggle");
+  if(btn){btn.addEventListener("click",function(){
+    var d=document.documentElement;
+    var n=d.getAttribute("data-theme")==="dark"?"light":"dark";
+    d.setAttribute("data-theme",n);
+    try{localStorage.setItem("ux-theme",n)}catch(e){}
+  });}
+})();
+</script>
+</body>
+</html>

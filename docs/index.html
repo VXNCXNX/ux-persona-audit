@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ux-persona-audit — live report demos</title>
+<meta name="description" content="A Claude Code skill that runs a panel of diverse AI personas through a website's real funnel and renders a standalone UX audit. Open a live report below.">
+<style>
+  :root{
+    --bg:#0b0d10; --surface:#14181d; --line:#232a31;
+    --ink:#f3f5f7; --body:#a8b3bd; --accent:#34d399; --accent-ink:#062018;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--body);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex; justify-content:center; padding:7vh 22px 12vh;
+  }
+  main{width:100%; max-width:640px}
+  .eyebrow{
+    display:inline-block; font-size:.74rem; font-weight:700; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 18px;
+  }
+  h1{
+    color:var(--ink); font-size:clamp(1.9rem,5vw,2.7rem); line-height:1.08;
+    letter-spacing:-.025em; margin:0 0 18px; font-weight:800;
+  }
+  .lede{font-size:1.08rem; margin:0 0 8px; max-width:56ch}
+  .lede b{color:var(--ink); font-weight:600}
+  .cards{display:grid; gap:14px; margin:34px 0 30px}
+  a.card{
+    display:block; text-decoration:none; color:inherit;
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:20px 22px; transition:border-color .18s ease, transform .18s ease;
+  }
+  a.card:hover{border-color:var(--accent); transform:translateY(-2px)}
+  .card .k{
+    font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 7px;
+  }
+  .card .t{color:var(--ink); font-size:1.18rem; font-weight:700; letter-spacing:-.01em; margin:0 0 5px}
+  .card .d{font-size:.95rem; margin:0}
+  .card .go{color:var(--accent); font-weight:600}
+  .install{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; margin:0 0 26px; overflow-x:auto;
+  }
+  .install code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.9rem; color:var(--ink); white-space:nowrap;
+  }
+  .foot{font-size:.9rem}
+  .foot a{color:var(--accent); text-decoration:none; font-weight:600}
+  .foot a:hover{text-decoration:underline}
+  .sep{margin:0 9px; color:var(--line)}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Claude Code skill</p>
+  <h1>Your page isn't obvious. It's obvious to you.</h1>
+  <p class="lede"><b>ux-persona-audit</b> runs a panel of 6 to 8 deliberately different AI
+  personas through a website's real funnel, landing, pricing, signup. Each one arrives
+  from a different source, thinks aloud, and logs exactly where it stalls or bounces.</p>
+  <p class="lede">Two live reports, rendered by the skill. Open one, toggle dark, scroll to
+  the exit interview.</p>
+
+  <div class="cards">
+    <a class="card" href="linear-app-report.html">
+      <p class="k">Live report · real audit</p>
+      <p class="t">linear.app</p>
+      <p class="d">Six visitors walked Linear's funnel. The four engineers signed up. The two
+      non-engineers bounced. <span class="go">Open report →</span></p>
+    </a>
+    <a class="card" href="sample-report.html">
+      <p class="k">Live report · bundled sample</p>
+      <p class="t">A fictional SaaS funnel</p>
+      <p class="d">The worked example that ships with the skill, six personas, full report.
+      <span class="go">Open report →</span></p>
+    </a>
+  </div>
+
+  <div class="install"><code>npx skills add VXNCXNX/ux-persona-audit -g</code></div>
+
+  <p class="foot">
+    <a href="https://github.com/VXNCXNX/ux-persona-audit">Source on GitHub</a>
+    <span class="sep">·</span> free, MIT
+  </p>
+</main>
+</body>
+</html>
